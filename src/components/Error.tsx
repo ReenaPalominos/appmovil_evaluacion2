@@ -1,12 +1,23 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
+import ErrorImage from '../../assets/advertencia.png';
 
 const Error = () => {
   return (
     <View>
-      <Text>ERROR</Text>
+      <Image source={ErrorImage} style={styles.logo} />
     </View>
   );
 };
 
+const styles = StyleSheet.create({
+  logo: {
+    width: 50,
+    height: 50,
+  },
+});
+
 export default Error;
+
+
+

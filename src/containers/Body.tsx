@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, Image, StyleSheet } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { ScrollView, View, Text, Button, Image, StyleSheet } from 'react-native';
 import { FakeStore } from '../interfaces/fakestore.interface';
 import { getProducts } from '../services/fakestore.service';
 import Loading from '../components/Loading';
@@ -56,10 +57,18 @@ const Body = () => {
   }, [ordenDatos]);
 
   return (
+    <>
+    <StatusBar />
+    <ScrollView style={styles.container}>
     <View>
-      <Text>Lista de Productos</Text>
-      <Button title="Ascendente" onPress={() => setOrdenDatos('asc')} />
-      <Button title="Descendente" onPress={() => setOrdenDatos('desc')} />
+      <Text style={styles.title}>Lista de Productos</Text>
+      <View style={styles.buttonContainer}>
+      {ordenDatos === 'asc' ? (
+        <Button title="Descendente" onPress={() => setOrdenDatos('desc')} />
+      ) : (
+        <Button title="Ascendente" onPress={() => setOrdenDatos('asc')} />
+      )}
+    </View>
       {loading ? (
         <Loading />
       ) : error ? (
@@ -76,7 +85,7 @@ const Body = () => {
             products.map((product, index) => (
               <View style={styles.tableRow} key={index}>
                 <Text>{product.id}</Text>
-                <Text>{product.title}</Text>
+                <Text style={styles.text}>{product.title}</Text>
                 <Text>{product.price}</Text>
                 <Image source={{ uri: product.image }} style={styles.image} />
               </View>
@@ -87,10 +96,31 @@ const Body = () => {
         </View>
       )}
     </View>
-  );
+    </ScrollView>
+    </>
+    );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    padding:20,
+  },
+  text: {
+    width: 100,
+  },
+  buttonContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 5,
+    alignSelf: 'flex-end',
+  },
+  title:{
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+    paddingTop: 10,
+  },
   tableHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
