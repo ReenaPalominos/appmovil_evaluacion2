@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, Image, StyleSheet } from 'react-native';
 import { FakeStore } from '../interfaces/fakestore.interface';
 import { getProducts } from '../services/fakestore.service';
 import Loading from '../components/Loading';
@@ -66,13 +66,19 @@ const Body = () => {
         <Error />
       ) : (
         <View>
-          <Text>ID | Nombre | Precio</Text>
+          <View style={styles.tableHeader}>
+            <Text>ID</Text>
+            <Text>Nombre</Text>
+            <Text>Precio</Text>
+            <Text>Imagen</Text>
+          </View>
           {products ? (
             products.map((product, index) => (
-              <View key={index}>
+              <View style={styles.tableRow} key={index}>
                 <Text>{product.id}</Text>
                 <Text>{product.title}</Text>
                 <Text>{product.price}</Text>
+                <Image source={{ uri: product.image }} style={styles.image} />
               </View>
             ))
           ) : (
@@ -83,5 +89,24 @@ const Body = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  tableHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    paddingVertical: 5,
+  },
+  tableRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    paddingVertical: 5,
+  },
+  image: {
+    width: 50,
+    height: 50,
+  },
+});
 
 export default Body;
